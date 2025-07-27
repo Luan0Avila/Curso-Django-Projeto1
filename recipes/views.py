@@ -3,14 +3,19 @@ from django.shortcuts import get_list_or_404, get_object_or_404, render
 from django.db.models import Q
 from recipes.models import Recipe
 from utils.recipes.factory import make_recipe
+from django.core.paginator import Paginator
 
 def home(request):
     recipes = Recipe.objects.filter(
         is_published=True,
     ).order_by('-id')
 
+    current_page = request.GET.get('page',1)
+    paginator = Paginator(recipes, 9)
+    page_obj = paginator.get_page(1)
+
     return render(request, 'recipes/pages/home.html', context={
-        'recipes': recipes
+        'recipes': page_obj
     })
 
 
