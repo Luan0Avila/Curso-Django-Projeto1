@@ -5,6 +5,7 @@ from recipes.models import Recipe
 from utils.recipes.factory import make_recipe
 from django.core.paginator import Paginator
 from utils.pagination import make_pagination
+from django.contrib import messages
 import os
 
 PER_PAGE = int(os.environ.get('PER_PAGE', 6))
