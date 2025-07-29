@@ -50,9 +50,6 @@ def recipe(request, id):
 
 
 def search(request):
-
-    messages.error(request, 'voce ta pesquisando ne safado')
-
     search_term = request.GET.get('q', '').strip()
 
     if not search_term:
