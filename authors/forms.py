@@ -1,8 +1,12 @@
 from django import forms
 from django.contrib.auth.models import User
 
+def add_attr(field, attr_name, attr_new_val):
+    existing = field.widget.attrs.get(attr_name, '')
+    field.widget.attrs[attr_name] = f'{existing} {attr_new_val}'.strip()
+
 def add_placeholder(field, placeolder_val):
-    field.widget.attrs['placeholder'] = placeolder_val
+    add_attr(field, 'placeholder', placeolder_val)
 
 
 class RegisterForm(forms.ModelForm):
@@ -12,7 +16,7 @@ class RegisterForm(forms.ModelForm):
         add_placeholder(self.fields['email'], 'Your email')
         add_placeholder(self.fields['first_name'], 'Ex.: John')
         add_placeholder(self.fields['last_name'], 'Ex.: Doe')
-
+        add_attr(self.fields['username'], 'css', 'a-css-class')
 
     password = forms.CharField(
         required=True,
