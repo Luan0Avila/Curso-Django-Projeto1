@@ -33,6 +33,22 @@ class RegisterForm(forms.ModelForm):
         add_placeholder(self.fields['password'], 'Type your password')
         add_placeholder(self.fields['password2'], 'Repeat your password')
 
+    first_name = forms.CharField(
+        error_messages={'required': 'Write your first name'},
+        label='First name'
+    )
+
+    last_name = forms.CharField(
+        error_messages={'required': 'Write your last name'},
+        label='Last name'
+    )
+
+    email = forms.EmailField(
+        error_messages={'required': 'E-mail is required'},
+        label='E-mail',
+        help_text = 'The e-mail must be valid.',
+    )
+
     password = forms.CharField(
         required=True,
         widget=forms.PasswordInput(),
@@ -49,7 +65,10 @@ class RegisterForm(forms.ModelForm):
     password2 = forms.CharField(
         required=True,
         widget=forms.PasswordInput(),
-        label= 'Password2'
+        label= 'Password2',
+        error_messages={
+            'required':'Please, repeat your password',
+        }
     )
 
     class Meta:
@@ -64,13 +83,8 @@ class RegisterForm(forms.ModelForm):
         # exclude = ['first_name']
         labels = {
             'username': 'Username',
-            'first_name': 'First name',
-            'last_name': 'Last name',
-            'email': 'E-mail',
         }
-        help_texts = {
-            'email': 'The e-mail must be valid.',
-        }
+
         error_messages = {
             'username': {
                 'required': 'This field must not be empty',
