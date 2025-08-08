@@ -68,3 +68,4 @@ class PaginationTest(TestCase):
             current_page=19
         )['pagination']
         self.assertIn([17,18,19,20], pagination)
+
