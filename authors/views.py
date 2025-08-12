@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.urls import reverse
 from .forms import RegisterForm, LoginForm
-
+from django.contrib.auth import authenticate,login
 
 def register_view(request):
     register_form_data = request.session.get('register_form_data', None)
@@ -41,4 +41,23 @@ def login_view(request):
 
 
 def login_create(request):
-    return render(request, 'authors/pages/login.html')
+    if not request.POST:
+        raise Http404
+    
+    form =LoginForm(request.POST)
+    login_url = reverse('authors:login')
+    
+    if form.is_valid():
+        authenticated_user = authenticate(
+            username = form.cleaned_data.get('username', ''),
+            password = form.cleaned_data.get('password', ''),
+        )
+        if authenticated_user is not None:
+            messages.success(request, 'Your are logged in.')
+            login(authenticated_user)
+        else:
+            messages.error(request,'Invalid credentials')
+    else:
+        messages.error(request, 'Invalid username or password')
+    
+    return redirect(login_url)
