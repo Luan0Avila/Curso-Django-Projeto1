@@ -2,6 +2,7 @@ from pathlib import Path
 from time import sleep
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
+import os
 
 ROOT_PATH = Path(__file__).parent.parent
 CHROMEDRIVER_NAME = 'chromedriver.exe'  # se estiver no Windows precisa do .exe
@@ -9,6 +10,9 @@ CHROMEDRIVER_PATH = ROOT_PATH / 'bin' / CHROMEDRIVER_NAME
 
 def make_chrome_browser(*options):
     chrome_options = webdriver.ChromeOptions()
+
+    if os.environ.get('SELENIUM_HEADLESS'):
+        chrome_options.add_argument('--headless')
     
     # Caminho do navegador (chrome.exe)
     chrome_options.binary_location = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
