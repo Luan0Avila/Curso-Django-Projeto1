@@ -11,7 +11,7 @@ CHROMEDRIVER_PATH = ROOT_PATH / 'bin' / CHROMEDRIVER_NAME
 def make_chrome_browser(*options):
     chrome_options = webdriver.ChromeOptions()
 
-    if os.environ.get('SELENIUM_HEADLESS'):
+    if os.environ.get('SELENIUM_HEADLESS') == '1':
         chrome_options.add_argument('--headless')
     
     # Caminho do navegador (chrome.exe)
