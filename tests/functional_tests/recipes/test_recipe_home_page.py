@@ -7,7 +7,7 @@ from unittest.mock import patch
 @pytest.mark.functional_test
 class RecipeHomePageFunctionalTest(RecipeBaseFunctionalTest):
 
-    @patch('recipes.views.PER_PAGE', new=2)
+    @patch('recipes.views.PER_PAGE', new=3)
     def test_recipe_home_page_without_recipes(self):
         self.make_recipe_in_batch(qtd=20)
         self.browser.get(self.live_server_url)
@@ -34,6 +34,6 @@ class RecipeHomePageFunctionalTest(RecipeBaseFunctionalTest):
         search_input.send_keys(title_needed)
         search_input.send_keys(Keys.ENTER)
 
-        self.sleep()
-        self.assertIn(title_needed, self.browser.find_element(By.TAG_NAME, 'body').text)
+        #o usuario ve o que estava procurando na pagina
+        self.assertIn(title_needed, self.browser.find_element(By.CLASS_NAME, 'main-content-list').text)
         
