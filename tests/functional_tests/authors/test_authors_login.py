@@ -31,3 +31,7 @@ class AuthorsLoginTest(AuthorsBaseTest):
         self.assertIn(f'Your are logged in with {user.username}', self.browser.find_element(By.TAG_NAME, 'body').text)
         #end test
         
+    def test_login_create_reises_404_if_not_post_method(self):
+        self.browser.get(self.live_server_url + reverse('authors:login_create'))
+        self.assertIn('Not Found', self.browser.find_element(By.TAG_NAME, 'body').text)
+
