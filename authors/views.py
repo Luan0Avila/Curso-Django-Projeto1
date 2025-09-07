@@ -94,6 +94,7 @@ def dashboard_recipe_edit(request, id):
     
     form = AuhtorRecipeForm(
         request.POST or None,
+        files=request.FILES or None,
         instance=recipe
     )
 
@@ -105,9 +106,10 @@ def dashboard_recipe_edit(request, id):
         recipe.preparation_steps_is_html = False
         recipe.is_published = False
         
-        recipe.save()
+        recipe.save() 
+
         messages.success(request, 'Your recipe was saved with sucess!')
-        return redirect(reverse('authors:dashboard_recipe_edit', args=(id)))
+        return redirect(reverse('authors:dashboard_recipe_edit', args=(id,)))
 
     return render(request, 'authors/pages/dashboard_recipe.html',
     context={'recipe': recipe,
