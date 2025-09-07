@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.urls import reverse
 from .forms import RegisterForm, LoginForm
-from .forms.recipe_form import AuhtorRecipeForm
+from .forms.recipe_form import AuthorRecipeForm
 from django.contrib.auth import authenticate,login, logout
 from django.contrib.auth.decorators import login_required
 from recipes.models import Recipe
@@ -92,7 +92,7 @@ def dashboard_recipe_edit(request, id):
     if not recipe:
         raise Http404
     
-    form = AuhtorRecipeForm(
+    form = AuthorRecipeForm(
         request.POST or None,
         files=request.FILES or None,
         instance=recipe
@@ -117,7 +117,7 @@ def dashboard_recipe_edit(request, id):
 
 @login_required(login_url='authors:login',redirect_field_name='next')
 def dashboard_recipe_new(request,):
-    form = AuhtorRecipeForm(
+    form = AuthorRecipeForm(
         request.POST or None,
         files=request.FILES or None,
     )
