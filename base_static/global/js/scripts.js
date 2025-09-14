@@ -1,17 +1,17 @@
 function my_scope() {
-    const form = document.querySelector(".form-delete")
+    const forms = document.querySelectorAll('.form-delete');
 
-    if(form) {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
+    for (const form of forms) {
+        form.addEventListener('submit', function (e) {
+        e.preventDefault();
 
-            const confirmed = confirm('Are you sure?')
+        const confirmed = confirm('Are you sure?');
 
-            if (confirmed) {
-                form.submit();
+        if (confirmed) {
+            form.submit();
             }
         });
-    };
-};
+    }
+}
 
-my_scope()
+my_scope();
