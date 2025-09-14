@@ -10,45 +10,54 @@ class DashboardRecipe(View):
     def get_recipe(self, id):
         recipe = None
 
-        if id:
-            recipe = Recipe.objects.filter(is_published=False, author=self.request.user, pk=id,).first()
-        
-        if not recipe:
-            raise Http404
-        
-        return recipe
-    
-    def render_recipe(self, form):
-        return render(self.request, 'authors/pages/dashboard_recipe.html',
-        context={'form': form})
+        if id is not None:
+            recipe = Recipe.objects.filter(
+                is_published=False,
+                author=self.request.user,
+                pk=id,
+            ).first()
 
-    def get(self, request, id):
+            if not recipe:
+                raise Http404()
+
+        return recipe
+
+    def render_recipe(self, form):
+        return render(
+            self.request,
+            'authors/pages/dashboard_recipe.html',
+            context={
+                'form': form
+            }
+        )
+
+    def get(self, request, id=None):
         recipe = self.get_recipe(id)
         form = AuthorRecipeForm(instance=recipe)
-
         return self.render_recipe(form)
 
-    def post(self, request, id):
+    def post(self, request, id=None):
         recipe = self.get_recipe(id)
         form = AuthorRecipeForm(
-            request.POST or None,
+            data=request.POST or None,
             files=request.FILES or None,
             instance=recipe
-        )   
-        
+        )
+
         if form.is_valid():
-            # agora o form é valido e eu posso tentar salvar
+            # Agora, o form é válido e eu posso tentar salvar
             recipe = form.save(commit=False)
 
             recipe.author = request.user
             recipe.preparation_steps_is_html = False
             recipe.is_published = False
-            
-            recipe.save() 
 
-            messages.success(request, 'Your recipe was saved with sucess!')
-            return redirect(reverse('authors:dashboard_recipe_edit', args=(id,)))
-        
+            recipe.save()
+
+            messages.success(request, 'Sua receita foi salva com sucesso!')
+            return redirect(
+                reverse('authors:dashboard_recipe_edit', args=(recipe.id,))
+            )
+
         return self.render_recipe(form)
-
 
