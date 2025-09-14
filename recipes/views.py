@@ -40,14 +40,20 @@ class RecipeListViewCategory(RecipeListViewBase):
         qs = qs.filter(category__id= self.kwargs.get('category_id')
         )
 
+        if not qs:
+            raise Http404()
+
         return qs
 
 class RecipeListViewSearch(RecipeListViewBase):
     template_name = 'recipes/pages/search.html'
     def get_queryset(self, *args, **kwargs):
         search_term = self.request.GET.get('q', '')
-        qs = super().get_queryset(*args, **kwargs)
 
+        if not search_term:
+            raise Http404()
+        
+        qs = super().get_queryset(*args, **kwargs)
         qs = qs.filter(
             Q(
         Q(title__icontains = search_term) |
