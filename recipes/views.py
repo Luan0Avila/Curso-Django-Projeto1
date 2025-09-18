@@ -7,7 +7,7 @@ import os
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.http import JsonResponse
-
+from django.forms.models import model_to_dict
 
 PER_PAGE = int(os.environ.get('PER_PAGE', 6))
 
@@ -96,6 +96,7 @@ class RecipeListViewSearch(RecipeListViewBase):
         return ctx
 
 class RecipeDetailView(DetailView):
+
     model = Recipe
     context_object_name = 'recipe'
     template_name = 'recipes/pages/recipe-view.html'
@@ -111,3 +112,18 @@ class RecipeDetailView(DetailView):
         qs = qs.filter(is_published=True)
         
         return qs
+    
+class RecipeDetailViewApi(RecipeDetailView):
+    def render_to_response(self, context, **response_kwargs):
+        recipe = self.get_context_data()['recipe']
+        recipe_dict = model_to_dict(recipe)
+
+        if recipe_dict.get('cover'):
+            recipe_dict['cover'] = recipe_dict['cover'].url
+        else:
+            recipe_dict['cover'] = ''
+
+        return JsonResponse(
+            recipe_dict,
+            safe=False
+        )
