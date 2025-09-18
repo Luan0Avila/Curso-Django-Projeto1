@@ -6,6 +6,7 @@ from django.contrib import messages
 import os
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
+from django.http import JsonResponse
 
 
 PER_PAGE = int(os.environ.get('PER_PAGE', 6))
@@ -30,6 +31,18 @@ class RecipeListViewBase(ListView):
     
 class RecipeListViewHome(RecipeListViewBase):
     template_name = 'recipes/pages/home.html'
+
+class RecipeListViewHomeApi(RecipeListViewBase):
+    template_name = 'recipes/pages/home.html'
+
+    def render_to_response(self, context, **response_kwargs):
+        recipes = self.get_context_data()['recipes']
+        recipes_list = recipes.object_list.values()
+        
+        return JsonResponse(
+            list(recipes_list),
+            safe=False
+            )
 
 class RecipeListViewCategory(RecipeListViewBase):
     template_name = 'recipes/pages/category.html'
