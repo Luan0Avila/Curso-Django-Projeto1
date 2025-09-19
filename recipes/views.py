@@ -95,7 +95,7 @@ class RecipeListViewSearch(RecipeListViewBase):
 
         return ctx
 
-class RecipeDetailView(DetailView):
+class RecipeDetail(DetailView):
 
     model = Recipe
     context_object_name = 'recipe'
@@ -113,17 +113,25 @@ class RecipeDetailView(DetailView):
         
         return qs
     
-class RecipeDetailViewApi(RecipeDetailView):
+
+class RecipeDetailAPI(RecipeDetail):
     def render_to_response(self, context, **response_kwargs):
         recipe = self.get_context_data()['recipe']
         recipe_dict = model_to_dict(recipe)
 
+        recipe_dict['created_at'] = str(recipe.created_at)
+        recipe_dict['updated_at'] = str(recipe.updated_at)
+
         if recipe_dict.get('cover'):
-            recipe_dict['cover'] = recipe_dict['cover'].url
+            recipe_dict['cover'] = self.request.build_absolute_uri() + \
+                recipe_dict['cover'].url[1:]
         else:
             recipe_dict['cover'] = ''
 
+        del recipe_dict['is_published']
+        del recipe_dict['preparation_steps_is_html']
+
         return JsonResponse(
             recipe_dict,
-            safe=False
+            safe=False,
         )
