@@ -8,6 +8,7 @@ from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
+from django.shortcuts import render
 
 PER_PAGE = int(os.environ.get('PER_PAGE', 6))
 
@@ -136,3 +137,7 @@ class RecipeDetailAPI(RecipeDetail):
             recipe_dict,
             safe=False,
         )
+    
+
+def theory(request, *args, **kwargs):
+    return render(request, 'recipes/pages/theory.html')
