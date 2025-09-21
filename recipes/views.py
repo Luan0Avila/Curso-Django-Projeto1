@@ -140,4 +140,16 @@ class RecipeDetailAPI(RecipeDetail):
     
 
 def theory(request, *args, **kwargs):
-    return render(request, 'recipes/pages/theory.html')
+    recipes = Recipe.objects.all() 
+    recipes = recipes.filter(title__icontains='bolo') #Mesmo que o eu faça um filter, o django só vai buscar no banco de dados quando eu chamar a variável
+
+    # print(recipes[0].title) # o django busca a receita no banco de dados apenas quando ela é chamada
+    
+    # print(recipes) # O django limita a busca para que seja puxado apenas aquilo que é solicitado
+
+    # list(recipes) # assim a consulta é feita no banco de dados. Assim tambem não vai haver o limite de consulta
+
+    context = {
+        'recipes': recipes,
+        }
+    return render(request, 'recipes/pages/theory.html', context = context)
