@@ -10,6 +10,7 @@ from django.http import JsonResponse
 from django.forms.models import model_to_dict
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Q
 
 PER_PAGE = int(os.environ.get('PER_PAGE', 6))
 
@@ -150,10 +151,19 @@ def theory(request, *args, **kwargs):
 
     # list(recipes) # assim a consulta é feita no banco de dados. Assim tambem não vai haver o limite de consulta
 
-    try:
-        recipes = Recipe.objects.get(pk=10000) # Busca uma recipe pela pk dela e retorna um objeto
-    except ObjectDoesNotExist: # secaso não exista, ele trata o erro
-            recipes = None
+    #try:
+    #    recipes = Recipe.objects.get(pk=10000) # Busca uma recipe pela pk dela e retorna um objeto
+    #except ObjectDoesNotExist: # secaso não exista, ele trata o erro
+    #       recipes = None
+
+    recipes = Recipe.objects.filter(
+        Q(Q(title__icontains ="pão",
+        id__gt=2, #todas esses requisitos são como a instrução AND do banco de dados
+        is_published=True) | # o | representa a instrução OR
+        Q(
+            id__lt = 1000
+        ))
+    )[0:10]
 
     context = {
         'recipes': recipes,
