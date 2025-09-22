@@ -10,7 +10,7 @@ from django.http import JsonResponse
 from django.forms.models import model_to_dict
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Q
+from django.db.models import Q, F
 
 PER_PAGE = int(os.environ.get('PER_PAGE', 6))
 
@@ -157,13 +157,15 @@ def theory(request, *args, **kwargs):
     #       recipes = None
 
     recipes = Recipe.objects.filter(
-        Q(Q(title__icontains ="pão",
-        id__gt=2, #todas esses requisitos são como a instrução AND do banco de dados
-        is_published=True) | # o | representa a instrução OR
-        Q(
-            id__lt = 1000
-        ))
-    )[0:10]
+        id= F('author__id'), # pode se usar o F para referenciar outros campos para busca
+        
+        #Q(Q(title__icontains ="pão",
+        #id__gt=2, #todas esses requisitos são como a instrução AND do banco de dados
+        #is_published=True) | # o | representa a instrução OR
+        #Q(
+        #    id__lt = 1000
+        #))       )
+    ).order_by('-id', 'title')#[:1] #order_by pode ser decrescente ou crecnete respectivamente
 
     context = {
         'recipes': recipes,
