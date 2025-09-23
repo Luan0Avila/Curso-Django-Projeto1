@@ -11,6 +11,7 @@ from django.forms.models import model_to_dict
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q, F
+from django.db.models.aggregates import Count
 
 PER_PAGE = int(os.environ.get('PER_PAGE', 6))
 
@@ -170,10 +171,13 @@ def theory(request, *args, **kwargs):
     # recipes = Recipe.objects.only('id', 'title')[:10] # values retorna uma lista de dicionários com os campos solicitados
 
     #recipes = Recipe.objects.only('id', 'title')[:10] # only limita os campos que serão buscados no banco de dados
-    recipes = Recipe.objects.defer('is_published') # defer limita os campos que não serão buscados no banco de dados
+    #recipes = Recipe.objects.defer('is_published') # defer limita os campos que não serão buscados no banco de dados
     
+    recipes = Recipe.objects.values('id', 'title').filter(title__icontains='teste') #se usarmos recipes ao inves do objeto Recipe o django vai retornar a quantidade que recipes tem, por exemplo no caso de 'teste'
+    number_of_recipes = recipes.aggregate(number=Count('id')) # O count mostra a qunatidade de receitas
 
     context = {
         'recipes': recipes,
+        'number_of_recipes': number_of_recipes['number']
         }
     return render(request, 'recipes/pages/theory.html', context = context)

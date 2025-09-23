@@ -9,6 +9,7 @@
     <h1>Theory</h1>
     <!-- <p>{{ recipes.0 }}</p> Apenas aqui o filtro foi usado, assim o django fez a consulta no banco de dados -->
     <!--<p>{{ recipes.title }}</p>-->
+    <p>Quantidade total de receitas igual a  {{ number_of_recipes }}</p>
     <ul>
         {% for recipe in recipes %}
             <li>{{ recipe }} {{ recipe.title }} </li>
