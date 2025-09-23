@@ -173,10 +173,7 @@ def theory(request, *args, **kwargs):
     #recipes = Recipe.objects.only('id', 'title')[:10] # only limita os campos que serão buscados no banco de dados
     #recipes = Recipe.objects.defer('is_published') # defer limita os campos que não serão buscados no banco de dados
     
-    recipes = Recipe.objects.all().annotate(
-        author_full_name= Concat(F('author__first_name'), Value(' '), F('author__last_name'), Value(' ('), F('author__username'), Value(')')
-        )
-    )[0:10] #.filter(title__icontains='teste') #se usarmos recipes ao inves do objeto Recipe o django vai retornar a quantidade que recipes tem, por exemplo no caso de 'teste'
+    recipes = Recipe.objects.get_published()[0:10] #.filter(title__icontains='teste') #se usarmos recipes ao inves do objeto Recipe o django vai retornar a quantidade que recipes tem, por exemplo no caso de 'teste'
     number_of_recipes = recipes.aggregate(number=Count('id')) # O count mostra a qunatidade de receitas
 
     context = {
