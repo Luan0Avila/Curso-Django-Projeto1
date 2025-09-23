@@ -156,8 +156,8 @@ def theory(request, *args, **kwargs):
     #except ObjectDoesNotExist: # secaso não exista, ele trata o erro
     #       recipes = None
 
-    recipes = Recipe.objects.filter(
-        id= F('author__id'), # pode se usar o F para referenciar outros campos para busca
+    #recipes = Recipe.objects.filter(
+        #id= F('author__id'), # pode se usar o F para referenciar outros campos para busca
         
         #Q(Q(title__icontains ="pão",
         #id__gt=2, #todas esses requisitos são como a instrução AND do banco de dados
@@ -165,7 +165,13 @@ def theory(request, *args, **kwargs):
         #Q(
         #    id__lt = 1000
         #))       )
-    ).order_by('-id', 'title')#[:1] #order_by pode ser decrescente ou crecnete respectivamente
+    #).order_by('-id') #,'title')#[:1] #order_by pode ser decrescente ou crecnete respectivamente
+
+    # recipes = Recipe.objects.only('id', 'title')[:10] # values retorna uma lista de dicionários com os campos solicitados
+
+    #recipes = Recipe.objects.only('id', 'title')[:10] # only limita os campos que serão buscados no banco de dados
+    recipes = Recipe.objects.defer('is_published') # defer limita os campos que não serão buscados no banco de dados
+    
 
     context = {
         'recipes': recipes,
