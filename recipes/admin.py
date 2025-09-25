@@ -1,13 +1,22 @@
 from django.contrib import admin
 from .models import Category, Recipe
+<<<<<<< HEAD
 from django.contrib.contenttypes.admin import GenericStackedInline
 from tag.models import Tag
+=======
+from tag.models import Tag
+from django.contrib.contenttypes.admin import GenericStackedInline
+>>>>>>> da87fd53cbe7399bf6c8dee2350b5bbe91bf6061
 
 class CategoryAdmin(admin.ModelAdmin):
     ...
 
 class TagInline(GenericStackedInline):
+<<<<<<< HEAD
     model = Tag
+=======
+    model  = Tag
+>>>>>>> da87fd53cbe7399bf6c8dee2350b5bbe91bf6061
     fields = 'name',
     extra = 1
 
@@ -24,6 +33,12 @@ class RecipeAdmin(admin.ModelAdmin):
         "slug": ('title',)
     }
 
+<<<<<<< HEAD
     inlines = [TagInline,]
+=======
+    inlines = [
+        TagInline,
+    ]
+>>>>>>> da87fd53cbe7399bf6c8dee2350b5bbe91bf6061
 
 admin.site.register(Category, CategoryAdmin)
