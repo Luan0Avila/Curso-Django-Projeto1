@@ -4,8 +4,9 @@ from django.urls import reverse
 from django.utils.text import slugify
 from django.db.models import Q, F, Value
 from django.db.models.functions import Concat
-from django.contrib.contenttypes.fields import GenericRelation
+#from django.contrib.contenttypes.fields import GenericRelation
 from tag.models import Tag
+
 
 class Category(models.Model):
     name = models.CharField(max_length=65)
@@ -47,7 +48,7 @@ class Recipe(models.Model):
     author = models.ForeignKey(
         User, on_delete=models.SET_NULL, null=True
     )
-    tags = GenericRelation(Tag, related_query_name='recipes')
+    tags = models.ManyToManyField(Tag) #GenericRelation(Tag, related_query_name='recipes')
 
     def __str__(self):
         return self.title
@@ -61,3 +62,4 @@ class Recipe(models.Model):
             self.slug = slug
 
         return super().save(*args, **kwargs)
+    
