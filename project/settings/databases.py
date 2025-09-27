@@ -1,4 +1,4 @@
-from environment import BASE_DIR
+from .environment import BASE_DIR
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases

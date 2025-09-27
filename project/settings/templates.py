@@ -1,4 +1,4 @@
-from environment import BASE_DIR
+from .environment import BASE_DIR
 
 
 TEMPLATES = [
