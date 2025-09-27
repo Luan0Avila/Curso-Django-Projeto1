@@ -6,6 +6,8 @@ from django.db.models import Q, F, Value
 from django.db.models.functions import Concat
 #from django.contrib.contenttypes.fields import GenericRelation
 from tag.models import Tag
+from collections import defaultdict
+from django.core.exceptions import ValidationError
 
 
 class Category(models.Model):
@@ -63,3 +65,17 @@ class Recipe(models.Model):
 
         return super().save(*args, **kwargs)
     
+    def clean(self, *args, **kwargs):
+        error_messages = defaultdict(list)
+
+        recipe_form_db = Recipe.objects.filter(
+            title__iexact=self.title
+        ).first()
+
+        if recipe_form_db:
+            if recipe_form_db.pk != self.pk:
+                error_messages['title'].append(
+                    'Found recipes with the same title.'
+                )
+        if error_messages:
+            raise ValidationError(error_messages)
