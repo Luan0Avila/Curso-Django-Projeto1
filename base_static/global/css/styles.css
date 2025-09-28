@@ -481,6 +481,7 @@ a {
   overflow-y: auto;
   background: var(--color-primary);
   z-index: 2;
+  transition: all 300ms ease-in-out;
 }
 
 .menu-container a {
@@ -490,17 +491,19 @@ a {
 .menu-hidden {
   left: -255px;
 }
+
 .button-show-menu {
   position: fixed;
   left: 265px;
   top: 2rem;
   color: var(--color-white);
-  background: var(--color-primary);
+  background-color: var(--color-primary);
   border: none;
   font-size: 2rem;
   z-index: 3;
   padding: 1rem;
-  opacity: 1;
+  visibility: hidden;
+  opacity: 0;
   transition: all 300ms ease-in-out;
   border-radius: 0 4px 4px 0;
   cursor: pointer;
@@ -534,7 +537,6 @@ a {
 .menu-nav a {
   width: 100%;
   padding: 1rem;
-
 }
 
 @media (max-width: 600px) {
