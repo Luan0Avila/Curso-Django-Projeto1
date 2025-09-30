@@ -4,6 +4,6 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 class Profile(models.Model):
-    authors = models.OneToOneField(User, on_delete=models.CASCADE)
+    author = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(default='', blank=True)
     
