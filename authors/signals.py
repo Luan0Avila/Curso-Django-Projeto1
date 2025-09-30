@@ -9,5 +9,5 @@ User = get_user_model()
 def create_profile(sender, instance, created, *args, **kwargs):
     print('Signal chamado ', instance.username, created)
     if created:
-        profile = Profile.objects.create(authors=instance)
+        profile = Profile.objects.create(author=instance)
         profile.save()
