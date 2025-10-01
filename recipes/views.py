@@ -13,6 +13,7 @@ from django.db.models import Q, F, Value
 from django.db.models.aggregates import Count
 from django.db.models.functions import Concat
 from tag.models import Tag
+from django.utils import translation
 
 PER_PAGE = int(os.environ.get('PER_PAGE', 6))
 
@@ -33,7 +34,10 @@ class RecipeListViewBase(ListView):
         ctx = super().get_context_data(*args, **kwargs)
         page_obj, pagination_range = make_pagination(
             self.request, ctx.get('recipes'), PER_PAGE)
-        ctx.update({ 'recipes': page_obj, 'pagination_range': pagination_range })
+        
+        html_langague = translation.get_language()
+
+        ctx.update({ 'recipes': page_obj, 'pagination_range': pagination_range, 'html_language': html_langague })
         return ctx
     
 class RecipeListViewHome(RecipeListViewBase):
