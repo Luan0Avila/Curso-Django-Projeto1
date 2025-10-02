@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-02 12:33-0300\n"
+"POT-Creation-Date: 2025-10-02 12:42-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,32 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: recipes/models.py:20 recipes/views.py:64
+msgid "Category"
+msgstr "Categoria"
+
+#: recipes/models.py:35
+msgid "Title"
+msgstr "Titulo"
+
+#: recipes/models.py:36
+msgid "Description"
+msgstr "Descrição"
+
+#: recipes/models.py:38
+#, fuzzy
+#| msgid "Preparation"
+msgid "Preparation_time"
+msgstr "Tempo de preparação"
+
+#: recipes/models.py:88
+msgid "Recipe"
+msgstr "Receita"
+
+#: recipes/models.py:89
+msgid "Recipes"
+msgstr "Receitas"
 
 #: recipes/templates/recipes/partials/recipe.html:61
 msgid "Preparation"
@@ -29,7 +55,3 @@ msgstr "Porções"
 #: recipes/templates/recipes/partials/recipe.html:78
 msgid "read more"
 msgstr "Ler mais"
-
-#: recipes/views.py:64
-msgid "Category"
-msgstr "Categoria"

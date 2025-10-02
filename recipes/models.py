@@ -8,7 +8,7 @@ from django.db.models.functions import Concat
 from tag.models import Tag
 from collections import defaultdict
 from django.core.exceptions import ValidationError
-
+from django.utils.translation import gettext_lazy as _
 
 class Category(models.Model):
     name = models.CharField(max_length=65)
@@ -29,10 +29,10 @@ class RecipeManagager(models.Manager):
 
 class Recipe(models.Model):
     objects = RecipeManagager()
-    title = models.CharField(max_length=65)
-    description = models.CharField(max_length=165)
+    title = models.CharField(max_length=65, verbose_name=_('Title'))
+    description = models.CharField(max_length=165, verbose_name=_('Description'))
     slug = models.SlugField(unique=True)
-    preparation_time = models.IntegerField()
+    preparation_time = models.IntegerField(verbose_name=_('Preparation_time'))
     preparation_time_unit = models.CharField(max_length=65)
     servings = models.IntegerField()
     servings_unit = models.CharField(max_length=65)
@@ -79,3 +79,8 @@ class Recipe(models.Model):
                 )
         if error_messages:
             raise ValidationError(error_messages)
+        
+
+    class Meta:
+        verbose_name = _('Recipe')
+        verbose_name_plural = _('Recipes')
