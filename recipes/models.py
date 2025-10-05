@@ -9,6 +9,9 @@ from tag.models import Tag
 from collections import defaultdict
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
+import os
+from django.conf import settings
+from PIL import Image
 
 class Category(models.Model):
     name = models.CharField(max_length=65)
@@ -58,6 +61,10 @@ class Recipe(models.Model):
     def get_absolute_url(self):
         return reverse('recipes:recipe', args=(self.id,))
     
+    def resize_image(image, new_width=800):
+        image_full_path = os.path.join(settings.MEDIA_ROOTS, image.name)
+    image_pillow = Image.open(image_full_path)
+
     def save(self, *args, **kwargs):
         if not self.slug:
             slug = f'{slugify(self.title)}'
