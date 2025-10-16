@@ -47,6 +47,15 @@ def recipe_api_detail(request, pk):
         return Response(serializer.data)
     
     elif request.method == 'PATCH':
+        serializer = RecipeSerializer(
+            instance=recipe,
+            data=request.data,
+            many=False,
+            context={'request': request},
+            partial=True
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
 
         return Response(serializer.data)
     
